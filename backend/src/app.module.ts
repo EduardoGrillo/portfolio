@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import { Project } from './projects/entities/project.entity';
+import { Message } from './messages/entities/message.entity';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -19,12 +21,14 @@ import { Project } from './projects/entities/project.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [Project],
+      entities: [Project, Message],
       synchronize: true, 
     }),
 
     ProjectsModule,
+    MessagesModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })
