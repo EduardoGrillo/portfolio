@@ -1,15 +1,28 @@
+// Caminho: backend/src/projects/projects.service.ts
+
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Project } from './entities/project.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProjectsService {
+  constructor(
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>,
+  ) {}
+
+  // Método para CRIAR um novo projeto
   create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+    const project = this.projectRepository.create(createProjectDto);
+    return this.projectRepository.save(project);
   }
 
+  // Método para LISTAR TODOS os projetos
   findAll() {
-    return `This action returns all projects`;
+    return this.projectRepository.find();
   }
 
   findOne(id: number) {
